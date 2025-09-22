@@ -1,6 +1,8 @@
 export class Matrix {
     order: number[];
     elements: number[][];
+    lastOperation: string = "";
+
     constructor(order: number[], elements: number[][]) {
         this.order = order;
         this.elements = elements;
@@ -39,25 +41,30 @@ export class Matrix {
         return new Matrix(resultOrder, resElements);
     }
 
-    get getRank(): number {
+    getRank(): number {
         let maxVal: number = 0;
         let maxPos: number = 0;
         let rank: number = 0;
-        let mCopy: Matrix = new Matrix(this.order, [[]]);
 
-        for (let i = 0; i < this.order[0]; i++) { // Inicializar copia
+        let minOrder: number = Math.min(...this.order);
+        let maxOrder: number = Math.max(...this.order);
+        let mCopy: Matrix = new Matrix([maxOrder,minOrder], [[]]);
+        for (let i = 0; i < mCopy.order[0]; i++) { // Inicializar copia
             mCopy.elements[i] = [];
-            for (let j = 0; j < this.order[1]; j++) {
-                mCopy.elements[i][j] = this.elements[i][j];
+            for (let j = 0; j < mCopy.order[1]; j++) {
+                if (this.order[0] > this.order[1]) {
+                    mCopy.elements[i][j] = this.elements[i][j];
+                    continue;
+                }
+                mCopy.elements[i][j] = this.elements[j][i];
             }
         }
 
         // Formar matriz escalonada
-        let minOrder = Math.min(this.order[0],this.order[1]);
-        for (let j = 0; j < minOrder; j++) {
+        for (let j = 0; j < mCopy.order[1]; j++) {
             maxVal = mCopy.elements[j][j];
             maxPos = j;
-            for (let i = j; i < this.order[0]; i++) { // Encontrar pivote
+            for (let i = j; i < mCopy.order[0]; i++) { // Encontrar pivote
                 if (Math.abs(mCopy.elements[i][j]) > maxVal) {
                     maxVal = mCopy.elements[i][j];
                     maxPos = i;
@@ -74,7 +81,7 @@ export class Matrix {
 
             mCopy.escalarRowMultiplication(j, 1/maxVal, true); // Convertir pivote en 1
 
-            for (let i = j + 1; i < minOrder; i++) { // Convertir valores inferiores en 0
+            for (let i = j + 1; i < mCopy.order[0]; i++) { // Convertir valores inferiores en 0
                 if (mCopy.elements[i][j]) {
                     let escalar: number = -1/mCopy.elements[i][j];
                     mCopy.rowAdition(i, j, escalar, true);
