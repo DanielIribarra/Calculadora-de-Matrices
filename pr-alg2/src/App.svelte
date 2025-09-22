@@ -5,7 +5,9 @@
 
   let M = new Matrix([3,3], [[1,2,5],[1,3,2],[2,4,9]]);
   let A = new Matrix([3,3], [[1,2,5],[1,3,2],[2,4,9]]);
-  console.log(M);
+  let B = new Matrix([3,4], [[1,1,1,1],[2,2,2,2],[1,1,1,1]]);
+  console.log(B);
+  /*
   try {
     console.log(M.getInverse());
   } catch (error) {
@@ -13,6 +15,8 @@
   }
   console.log(M.sum(A))
   console.log(M.multiplication(A))
+  */
+  console.log(`Rango = ${B.getRank}`);
 </script>
 
 <main>
