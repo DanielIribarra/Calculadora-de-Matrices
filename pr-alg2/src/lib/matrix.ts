@@ -29,11 +29,11 @@ export class Matrix {
         if (this.order[1] !== secondMatrix.order[0]) {
             throw new Error("Matrices Incompatibles");
         }
-        for (let i = 0; i < this.order[0]; i++) {
+        for (let i = 0; i < resultOrder[0]; i++) {
             resElements[i] = [];
-            for (let j = 0; j < this.order[1]; j++) {
+            for (let j = 0; j < resultOrder[1]; j++) {
                 resElements[i][j] = 0;
-                for (let k = 0; k < this.order[0]; k++) {
+                for (let k = 0; k < this.order[1]; k++) {
                     resElements[i][j] += this.elements[i][k]*secondMatrix.elements[k][j];
                 }
             }
@@ -146,7 +146,7 @@ export class Matrix {
 
             for (let i = j + 1; i < this.order[0]; i++) { // Convertir valores inferiores en 0
                 if (mCopy.elements[i][j]) {
-                    let escalar: number = -1/mCopy.elements[i][j];
+                    let escalar: number = -mCopy.elements[i][j];
                     mCopy.rowAdition(i, j, escalar, true);
                     inverse.rowAdition(i, j, escalar, false);
                     this.operations.push(`F${i+1} + (${escalar})*F${j+1} -> F${i+1}`);
