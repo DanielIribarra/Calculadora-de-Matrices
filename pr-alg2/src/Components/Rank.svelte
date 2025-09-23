@@ -1,16 +1,32 @@
 <script lang="ts">
-	import {Matrix} from '../lib/matrix'
-	import Layout from '../Layout.svelte';
+	import { Matrix } from '../lib/matrix';
+    import { Parser } from '../lib/parser';
+
+    let m1Value: string = $state("");
+    let resValue: string = $state("");
+
+    let rank = () => {
+        let p: Parser = new Parser();
+        try {
+            let m1: Matrix = p.parseMatrix(m1Value);
+            let res: number = m1.getRank();
+
+            resValue += res;
+            resValue += '\n\n';
+        } catch (error) {
+            alert(error);
+        }
+    }
 </script>
 
 <main class="component-rank">
 	<label for="rank-textarea1">A</label>
-    <textarea id="rank-textarea1"></textarea>
+    <textarea id="rank-textarea1" bind:value={m1Value}></textarea>
 
-    <label for="rank-textarea3">rango(A)</label>
-    <textarea id="rank-textarea3" readonly>(1 2 3)&NewLine;(1 2 3)&NewLine;(1 2 3)&NewLine;</textarea>
+    <label for="rank-textarea2">rango(A)</label>
+    <textarea id="rank-textarea2" bind:value={resValue} readonly></textarea>
 
-    <button aria-label="Calcular">Calcular</button>
+    <button aria-label="Calcular" onclick={rank}>Calcular</button>
 </main>
 
 <style>

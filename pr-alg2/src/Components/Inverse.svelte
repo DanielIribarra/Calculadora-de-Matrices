@@ -1,16 +1,32 @@
 <script lang="ts">
-	import {Matrix} from '../lib/matrix'
-	import Layout from '../Layout.svelte';
+	import { Matrix } from '../lib/matrix';
+    import { Parser } from '../lib/parser';
+
+    let m1Value: string = $state("");
+    let resValue: string = $state("");
+
+    let inverse = () => {
+        let p: Parser = new Parser();
+        try {
+            let m1: Matrix = p.parseMatrix(m1Value);
+            let res: Matrix = m1.getInverse();
+
+            resValue += p.formatMatrixElems(res.elements);
+            resValue += '\n\n';
+        } catch (error) {
+            alert(error);
+        }
+    }
 </script>
 
 <main class="component-inv">
 	<label for="inv-textarea1">A</label>
-    <textarea id="inv-textarea1"></textarea>
+    <textarea id="inv-textarea1" bind:value={m1Value}></textarea>
 
-    <label for="inv-textarea3">A<sup>-1</sup></label>
-    <textarea id="inv-textarea3" readonly>(1 2 3)&NewLine;(1 2 3)&NewLine;(1 2 3)&NewLine;</textarea>
+    <label for="inv-textarea2">A<sup>-1</sup></label>
+    <textarea id="inv-textarea2" bind:value={resValue} readonly></textarea>
 
-    <button aria-label="Calcular">Calcular</button>
+    <button aria-label="Calcular" onclick={inverse}>Calcular</button>
 </main>
 
 <style>

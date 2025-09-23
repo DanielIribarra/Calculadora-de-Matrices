@@ -2,11 +2,6 @@
 	import { Matrix } from '../lib/matrix';
     import { Parser } from '../lib/parser';
 
-    // let M = new Matrix([3,3], [[1,2,1],[1,3,2],[2,4,9]]);
-	// let A = new Matrix([3,3], [[1,2,5],[1,3,2],[2,4,9]]);
-	// let B = new Matrix([3,4], [[1,1,1,1],[2,2,2,2],[1,1,1,1]]);
-	// let C = new Matrix([1,4], [[0,0,0,1]]);
-
     let m1Value: string = $state("");
     let m2Value: string = $state("");
     let resValue: string = $state("");

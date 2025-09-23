@@ -60,6 +60,11 @@ export class Parser {
 
     formatMatrixElems(elements: number[][]): string {
         if (elements.length === 0) return '';
+        for (let i = 0; i < elements.length; i++) {
+            for (let j = 0; j < elements[0].length; j++) {
+                elements[i][j] = Number(elements[i][j].toFixed(2));
+            }
+        }
         
         const columnWidths = elements[0].map((_, colIndex) => 
             Math.max(...elements.map(row => row[colIndex].toString().length))
@@ -67,8 +72,8 @@ export class Parser {
         
         return elements.map(element =>
             `(${element.map((num, index) => 
-            num.toString().padStart(columnWidths[index], ' ')
-            ).join(' ')})`
+                num.toString().padStart(columnWidths[index], ' ')
+                ).join(' ')})`
         ).join('\n');
     };
 }
