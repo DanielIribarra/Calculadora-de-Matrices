@@ -1,7 +1,7 @@
 export class Matrix {
     order: number[];
     elements: number[][];
-    lastOperation: string = "";
+    operations: string[] = [];
 
     constructor(order: number[], elements: number[][]) {
         this.order = order;
@@ -77,14 +77,17 @@ export class Matrix {
 
             if (maxPos != j) {
                 mCopy.rowSwap(j, maxPos, true); // Mover Pivote
+                this.operations.push(`F${j+1} <-> F${maxPos+1}`);
             }
 
             mCopy.escalarRowMultiplication(j, 1/maxVal, true); // Convertir pivote en 1
+            this.operations.push(`(${1/maxVal})*F${j+1} -> F${j+1}`);
 
             for (let i = j + 1; i < mCopy.order[0]; i++) { // Convertir valores inferiores en 0
                 if (mCopy.elements[i][j]) {
                     let escalar: number = -1/mCopy.elements[i][j];
                     mCopy.rowAdition(i, j, escalar, true);
+                    this.operations.push(`F${i+1} + (${escalar})*F${j+1} -> F${i+1}`);
                 }
             }
         }
@@ -134,16 +137,19 @@ export class Matrix {
             if (maxPos != j) {
                 mCopy.rowSwap(j, maxPos, true); // Mover Pivote
                 inverse.rowSwap(j, maxPos, false);
+                this.operations.push(`F${j+1} <-> F${maxPos+1}`);
             }
 
             mCopy.escalarRowMultiplication(j, 1/maxVal, true); // Convertir pivote en 1
             inverse.escalarRowMultiplication(j, 1/maxVal, false);
+            this.operations.push(`(${1/maxVal})*F${j+1} -> F${j+1}`);
 
             for (let i = j + 1; i < this.order[0]; i++) { // Convertir valores inferiores en 0
                 if (mCopy.elements[i][j]) {
                     let escalar: number = -1/mCopy.elements[i][j];
                     mCopy.rowAdition(i, j, escalar, true);
                     inverse.rowAdition(i, j, escalar, false);
+                    this.operations.push(`F${i+1} + (${escalar})*F${j+1} -> F${i+1}`);
                 }
             }
         }

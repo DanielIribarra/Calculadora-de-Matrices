@@ -11,6 +11,18 @@
             let m1: Matrix = p.parseMatrix(m1Value);
             let res: Matrix = m1.getInverse();
 
+            resValue += "--- Operaciones ---";
+            resValue += '\n';
+            resValue += "--- Elementales de Fila ---";
+            resValue += '\n\n';
+            for (let i = 0; i < m1.operations.length; i++) {
+                resValue += m1.operations[i];
+                resValue += '\n';
+            }
+            resValue += '\n';
+
+            resValue += "--- Resultado ---";
+            resValue += '\n';
             resValue += p.formatMatrixElems(res.elements);
             resValue += '\n\n';
         } catch (error) {

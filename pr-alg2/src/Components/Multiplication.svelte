@@ -13,6 +13,8 @@
             let m2: Matrix = p.parseMatrix(m2Value);
             let res: Matrix = m1.multiplication(m2);
 
+            resValue += "--- Resultado ---";
+            resValue += '\n\n';
             resValue += p.formatMatrixElems(res.elements);
             resValue += '\n\n';
         } catch (error) {
